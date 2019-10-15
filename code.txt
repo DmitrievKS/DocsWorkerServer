@@ -1,0 +1,67 @@
+//var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Pn0Sljclxu-Xy5b00BQS1kVTpw3DahgQdUj7YXoorNA/edit#gid=0");
+
+var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005");
+
+//var ss = SpreadsheetApp.getActiveSpreadsheet(); 
+
+var sheet = ss.getSheetByName('Неопределенный этаж'); // be very careful ... it is the sheet name .. so it should match 
+  
+function doPost(e){
+  
+
+var stage = e.parameter.stage;
+
+if (stage == '1')
+{
+  sheet = ss.getSheetByName('1 ЭТАЖ');
+}
+else if (stage == '2')
+{
+   sheet = ss.getSheetByName('2 ЭТАЖ');
+}
+else if (stage == '3')
+{
+   sheet = ss.getSheetByName('3 ЭТАЖ');
+}
+else
+{
+   sheet = ss.getSheetByName('Неопределенный этаж');
+}
+  
+var action = e.parameter.action;
+
+if(action == 'addItem'){
+  return addItem(e);
+}  
+  //sheet.appendRow(["1"]);
+}
+
+function addItem(e){
+
+//diabetes	roomNumber	name	need	category	whereBuy	responsible	birthday	anniversary	notes  date
+//Диабет	№ палаты	Имя	Нужности	Категория	Где покупать	Ответственный	Дни рождения	Юбилей апрель	Примечания
+
+//var b  =  "Item"+sheet.getLastRow(); // Item1
+  
+var name = e.parameter.name;
+var roomNumber = e.parameter.roomNumber;
+var need = e.parameter.need;
+var category = e.parameter.category;  
+var responsible = e.parameter.responsible;
+var notes = e.parameter.notes;
+  
+var date =  new Date();  
+  
+//new code 03072019
+
+//var timeZone = AdsApp.currentAccount().getTimeZone();
+var realTimeString = Utilities.formatDate(date, 'Europe/Moscow', 'MMMM dd, yyyy HH:mm:ss');
+
+  
+//  
+
+sheet.appendRow(["",roomNumber,name,need,category,"",responsible,"","",notes,realTimeString]);
+
+   return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+
+}
