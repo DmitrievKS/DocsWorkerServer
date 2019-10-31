@@ -1,32 +1,26 @@
 //var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Pn0Sljclxu-Xy5b00BQS1kVTpw3DahgQdUj7YXoorNA/edit#gid=0");
 
-var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005");
+//this is correct link 
+//var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005");
 
 //var ss = SpreadsheetApp.getActiveSpreadsheet(); 
 
-var sheet = ss.getSheetByName('Неопределенный этаж'); // be very careful ... it is the sheet name .. so it should match 
+//var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005"); 
+
+var ss;
+
+
+//var sheet = ss.getSheetByName('РќРµРѕРїСЂРµРґРµР»РµРЅРЅС‹Р№ СЌС‚Р°Р¶'); // be very careful ... it is the sheet name .. so it should match 
   
 function doPost(e){
   
+var house = e.parameter.house;   
 
-var stage = e.parameter.stage;
-
-if (stage == '1')
-{
-  sheet = ss.getSheetByName('1 ЭТАЖ');
-}
-else if (stage == '2')
-{
-   sheet = ss.getSheetByName('2 ЭТАЖ');
-}
-else if (stage == '3')
-{
-   sheet = ss.getSheetByName('3 ЭТАЖ');
-}
-else
-{
-   sheet = ss.getSheetByName('Неопределенный этаж');
-}
+selectHouseLink(house)  
+  
+var stage = e.parameter.stage; 
+ 
+selectStageNumber(stage)  
   
 var action = e.parameter.action;
 
@@ -36,10 +30,10 @@ if(action == 'addItem'){
   //sheet.appendRow(["1"]);
 }
 
-function addItem(e){
 
+function addItem(e){
 //diabetes	roomNumber	name	need	category	whereBuy	responsible	birthday	anniversary	notes  date
-//Диабет	№ палаты	Имя	Нужности	Категория	Где покупать	Ответственный	Дни рождения	Юбилей апрель	Примечания
+//Р”РёР°Р±РµС‚	в„– РїР°Р»Р°С‚С‹	РРјСЏ	РќСѓР¶РЅРѕСЃС‚Рё	РљР°С‚РµРіРѕСЂРёСЏ	Р“РґРµ РїРѕРєСѓРїР°С‚СЊ	РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№	Р”РЅРё СЂРѕР¶РґРµРЅРёСЏ	Р®Р±РёР»РµР№ Р°РїСЂРµР»СЊ	РџСЂРёРјРµС‡Р°РЅРёСЏ
 
 //var b  =  "Item"+sheet.getLastRow(); // Item1
   
@@ -51,17 +45,98 @@ var responsible = e.parameter.responsible;
 var notes = e.parameter.notes;
   
 var date =  new Date();  
-  
-//new code 03072019
-
-//var timeZone = AdsApp.currentAccount().getTimeZone();
 var realTimeString = Utilities.formatDate(date, 'Europe/Moscow', 'MMMM dd, yyyy HH:mm:ss');
-
-  
-//  
 
 sheet.appendRow(["",roomNumber,name,need,category,"",responsible,"","",notes,realTimeString]);
 
    return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
+}
+
+
+
+function selectHouseLink(house)
+{
+if(house == 'РљР°Р»СѓРіР°')
+{
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005"); 
+}
+else if(house == 'Р’РѕР»РѕС‡РµРє')
+{
+  //some other link
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1yloWxQd-YCNaZTDnyNMugepIHL_V8bsnC91-51TCu6Y/edit#gid=442574005");
+}
+else if(house == 'РҐРѕС‚РёР»РёС†С‹')
+{ 
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1tqDTnwqWqVvq99TkGeADuYLyAGT1DrTLmnF-65XGJdg/edit#gid=0");
+}
+else if(house == 'РЎС‚Р°СЂР°СЏ РўРѕСЂРѕРїР°')
+{ 
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Ouvdb0_KxTmFWg5adfcH-xsXLUE1whSTdwzQ4_-B1oY/edit#gid=0");
+}
+else if(house == 'РџСЂРёСЋС‚ РІ РђРЅРґСЂРµР°РїРѕР»Рµ')
+{
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1uKjUGDkw9amHsfweD3yw6b0GDsqLHQHrT6aXHUM8rbk/edit#gid=1325596756");
+}
+else if(house == 'РџРµРЅРѕ')
+{ 
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1WZfWbAg88ZSllDpekPJf8bGMZ0VHwOG1-GFsmvmzb48/edit#gid=0");
+}
+else if(house == 'Р’СЏР·СЊРјР°')
+{ 
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1FftuB977maHofvNHmJLmIq2_bJf6p6gbmfvgUfGhxjA/edit#gid=0");
+}
+else if(house == 'РњРѕР»СЊРіРёРЅРѕ')
+{
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1WbYywCBHGEWVscIM3VDy3DGv1xxtu4yxsCwWeqZi4OQ/edit#gid=0");
+}
+else if(house == 'РљСЂР°СЃРЅРѕР·Р°РІРѕРґСЃРє')
+{ 
+  ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1dJwN_ioo7oarBOCb3vymKqLc4ETr6wzWnB-yJ6QLTzg/edit#gid=0");
+}
+
+
+
 
 }
+
+
+function selectStageNumber(stage)
+{
+if (stage == '1')
+{
+sheet = ss.getSheetByName('1 Р­РўРђР–');
+}
+else if (stage == '2')
+{
+   sheet = ss.getSheetByName('2 Р­РўРђР–');
+}
+else if (stage == '3')
+{
+   sheet = ss.getSheetByName('3 Р­РўРђР–');
+}
+else if (stage == '4')
+{
+   sheet = ss.getSheetByName('4 Р­РўРђР–');
+}
+else if (stage == '5')
+{
+   sheet = ss.getSheetByName('5 Р­РўРђР–');
+}
+else if (stage == '6')
+{
+   sheet = ss.getSheetByName('6 Р­РўРђР–');
+}
+else if (stage == '7')
+{
+   sheet = ss.getSheetByName('7 Р­РўРђР–');
+}
+else if (stage == 'РћР±С‰РµРµ')
+{
+   sheet = ss.getSheetByName('РћР‘Р©Р•Р•');
+}  
+else
+{
+   sheet = ss.getSheetByName('РќРµРѕРїСЂРµРґРµР»РµРЅРЅС‹Р№ СЌС‚Р°Р¶');
+}
+}
+
